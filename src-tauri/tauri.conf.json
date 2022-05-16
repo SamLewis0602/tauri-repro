@@ -4,7 +4,8 @@
     "beforeBuildCommand": "",
     "beforeDevCommand": "",
     "devPath": "../dist",
-    "distDir": "../dist"
+    "distDir": "../dist",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "repro",
@@ -12,7 +13,16 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "all": true,
+      "shell": {
+        "sidecar": true,
+        "scope": [
+          {
+            "name": "bin/simple",
+            "sidecar": true
+          }
+        ]
+      }
     },
     "bundle": {
       "active": true,
@@ -21,7 +31,9 @@
       "deb": {
         "depends": []
       },
-      "externalBin": [],
+      "externalBin": [
+        "bin/simple"
+      ],
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",

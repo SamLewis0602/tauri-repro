@@ -8,14 +8,30 @@
       width: 100%;
       height: 100%;
     }
-
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  </style>
+    
+    </style>
   <body>
     <h1>repro</h1>
+    <h2>stdout</h2>
+    <div id="div">waiting</div>
+    <h2>command.on('close', ...)</h2>
+    <div id="onclose"></div>
   </body>
+  <script>
+    const { Command } = window.__TAURI__.shell
+
+    const div = document.getElementById('div');
+    const command = Command.sidecar('bin/simple')
+    command
+    .on('error', console.error)
+    .on('close', data => {
+      const onclose = document.getElementById('onclose');
+      onclose.innerText = JSON.stringify(data);
+    })
+  command.stdout.on('data', (data) => {
+    div.innerText = data
+  });
+  command.stderr.on('data', console.error);
+  command.spawn()
+  </script>
 </html>
